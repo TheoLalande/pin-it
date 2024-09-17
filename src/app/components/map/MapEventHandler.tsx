@@ -1,17 +1,13 @@
-import { LeafletMouseEvent } from "leaflet";
-import { useMapEvents } from "react-leaflet";
+import { LeafletMouseEvent } from 'leaflet'
+import { useMapEvents } from 'react-leaflet'
 
-const MapEventHandler = ({
-  onMapClick,
-}: {
-  onMapClick: (e: LeafletMouseEvent) => void;
-}) => {
+const MapEventHandler = ({ onMapClick }: { onMapClick: (e: LeafletMouseEvent) => void }) => {
   useMapEvents({
     click(e) {
-      onMapClick(e);
+      onMapClick(e)
     },
-  });
-  return null;
-};
+  })
+  return null
+}
 
-export default MapEventHandler;
+export default MapEventHandler
