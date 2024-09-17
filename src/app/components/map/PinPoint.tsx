@@ -4,7 +4,6 @@ import PinPopUp from './PinPopUp'
 import 'leaflet-defaulticon-compatibility'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 import { LeafletMouseEvent } from 'leaflet'
-// import createCustomIcon from './CreateCustomIcon' // Met le bon chemin ici
 import PPIcon from './PinPointIcon'
 
 type pinPointProps = {
@@ -12,6 +11,13 @@ type pinPointProps = {
   icon: string
   color: string
   onMarkerClick?: (e: LeafletMouseEvent) => void // Rendre cette prop optionnelle si non utilisée
+  popupData: {
+    title: string
+    description: string
+    latitude: number
+    longitude: number
+    imagePath: string
+  }
 }
 
 export default function PinPoint(props: pinPointProps) {
@@ -31,7 +37,13 @@ export default function PinPoint(props: pinPointProps) {
         click: handleMarkerClick,
       }}
     >
-      <PinPopUp />
+      <PinPopUp
+        title={props.popupData.title}
+        description={props.popupData.description}
+        imagePath={props.popupData.imagePath}
+        latitude={props.popupData.latitude}
+        longitude={props.popupData.longitude}
+      />
     </Marker>
   )
 }

@@ -3,23 +3,31 @@ import { Popup } from 'react-leaflet'
 import Image from 'next/image'
 import styles from './Map.module.css'
 
-const PinPopUp = () => {
+type popUpProps = {
+  title: string
+  description: string
+  imagePath: string
+  latitude: number
+  longitude: number
+}
+
+const PinPopUp = (props: popUpProps) => {
   return (
     <Popup
       className={styles.customPopup} // Classe personnalisée pour styliser la popup
     >
       <div className={styles.popupContent}>
-        <h1 className={styles.title}>Belvédère de la dent d&apos;aire</h1>
+        <h1 className={styles.title}>{props.title}</h1>
         <div className={styles.imageWrapper}>
-          <Image
-            src="/assets/popUpPic.jpg"
-            alt="Vue du Belvédère"
-            width={300}
-            height={200}
-            style={{ objectFit: 'cover' }} // Assure que l'image est bien redimensionnée
-          />
+          <Image src={props.imagePath} alt="Vue du Belvédère" width={300} height={200} style={{ objectFit: 'cover' }} />
         </div>
-        <p>Superbe point de vu, le plus haut des gorges du Verdon. Suivre la route des crêtes pour y arriver.</p>
+        <p>{props.description}</p>
+        <div className="flex justify-center align-middle items-center gap-1 ">
+          <Image src="/assets/icons/pin.svg" alt="pin" width={15} height={15} />
+          <p>
+            {props.latitude},{props.longitude}
+          </p>
+        </div>
       </div>
     </Popup>
   )

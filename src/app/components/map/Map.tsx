@@ -25,7 +25,13 @@ const Map = (props: propsType) => {
         <Layer />
         <MapEventHandler onMapClick={handleMapClick} />
         {data.map(pinPoint => (
-          <PinPoint icon={pinPoint.icon} color={pinPoint.color} key={pinPoint.id} position={[pinPoint.latitude, pinPoint.longitude]} />
+          <PinPoint
+            popupData={{ title: pinPoint.title, description: pinPoint.description, latitude: position[0], longitude: position[1], imagePath: '/assets/popUpPic.jpg' }}
+            icon={pinPoint.icon}
+            color={pinPoint.color}
+            key={pinPoint.id}
+            position={[pinPoint.latitude, pinPoint.longitude]}
+          />
         ))}
       </MapContainer>
     </div>
@@ -33,3 +39,5 @@ const Map = (props: propsType) => {
 }
 
 export default React.memo(Map)
+
+// {pinPoint.title} description={pinPoint.description}
