@@ -1,8 +1,8 @@
 {
-  "name": "Pin-It",
-  "short_name": "P-It",
-  "theme_color": "#6aa84f",
-  "background_color": "#6aa84f",
+  "name": "PWA Next.js",
+  "short_name": "pwa-nextjs",
+  "theme_color": "#35155D",
+  "background_color": "#ffffff",
   "display": "standalone",
   "orientation": "portrait",
   "scope": "/",
