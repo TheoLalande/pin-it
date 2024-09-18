@@ -1,0 +1,11 @@
+{
+  "name": "Pin-It",
+  "short_name": "P-It",
+  "theme_color": "#6aa84f",
+  "background_color": "#6aa84f",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "splash_pages": null
+}

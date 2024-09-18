@@ -16,7 +16,7 @@ const Map = (props: propsType) => {
   const { position, zoom } = props
   function handleMapClick(e: LeafletMouseEvent) {
     const map = e.target._map // Récupère l'instance de la carte
-    if (map) map.panTo(e.latlng, { animate: true, duration: 1.0 })
+    if (map) map.setView(e.latlng, { animate: true, duration: 15, easeLinearity: 0.9 })
   }
 
   return (
