@@ -1,10 +1,11 @@
 import { Marker, useMap } from 'react-leaflet'
-import React from 'react'
+import React, { useEffect } from 'react'
 import PinPopUp from './PinPopUp'
 import 'leaflet-defaulticon-compatibility'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 import { LeafletMouseEvent } from 'leaflet'
 import PPIcon from './PinPointIcon'
+import { useCommonStore } from '@/app/store/commonStore'
 
 type pinPointProps = {
   position: [number, number]
@@ -21,7 +22,13 @@ type pinPointProps = {
 }
 
 export default function PinPoint(props: pinPointProps) {
+  const { searchedPlace } = useCommonStore()
+
   const map = useMap() // Accès à la carte
+
+  useEffect(() => {
+    map.panTo([searchedPlace.latitude, searchedPlace.longitude], { animate: true, duration: 1.0 })
+  }, [searchedPlace])
 
   function handleMarkerClick(e: LeafletMouseEvent) {
     setTimeout(() => {
@@ -29,6 +36,7 @@ export default function PinPoint(props: pinPointProps) {
     }, 100)
     if (props.onMarkerClick) props.onMarkerClick(e)
   }
+
   return (
     <Marker
       position={props.position}
