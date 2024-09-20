@@ -1,5 +1,5 @@
 export type SearchedPlaceType = {
-  concatenatedCityInfo: string;
+  city: string;
   state: string;
   postCode: number
   latitude: number;
@@ -17,7 +17,7 @@ export function formatGPSCoordinates(valueToFormat: string): SearchedPlaceType[]
   const valueWithoutSpace = valueToFormat.replace(/\s+/g, '');
   const [latitude, longitude] = valueWithoutSpace.split(',');
   const searchedPlace: SearchedPlaceType[] = [{
-    concatenatedCityInfo: '',
+    city: '',
     state: '',
     postCode: 0,
     latitude: parseFloat(latitude),
@@ -44,12 +44,12 @@ function formatResults(results: any) {
       ? result.address.city
       : result.address.village
         ? result.address.village
-        : result.address.town ? result.address.town : result.address.municipality
+        : result.address.municipality
     const concatenatedString = `${city}, ${result.address.state}, ${result.address.country}`
-    const isDuplicate = formatedResult.some((item) => item.concatenatedCityInfo === concatenatedString)
+    const isDuplicate = formatedResult.some((item) => item.city === concatenatedString)
     if (!isDuplicate) {
       const resultObj: SearchedPlaceType = {
-        concatenatedCityInfo: concatenatedString,
+        city: concatenatedString,
         state: result.address.state,
         postCode: result.address.postcode,
         latitude: parseFloat(result.lat),

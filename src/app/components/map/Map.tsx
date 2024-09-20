@@ -4,7 +4,6 @@ import PinPoint from './PinPoint'
 import Layer from './Layer'
 import data from '../../../../public/data/pinPoints'
 import React from 'react'
-import { useCommonStore } from '@/app/store/commonStore'
 
 type propsType = {
   position: [number, number]
@@ -13,7 +12,6 @@ type propsType = {
 
 const Map = (props: propsType) => {
   const { position, zoom } = props
-  const { searchedPlace } = useCommonStore()
 
   return (
     <div className="flex h-screen w-screen absolute z-0">
@@ -28,15 +26,6 @@ const Map = (props: propsType) => {
             position={[pinPoint.latitude, pinPoint.longitude]}
           />
         ))}
-        {searchedPlace ? (
-          <PinPoint
-            key={searchedPlace.concatenatedCityInfo}
-            popupData={{ title: searchedPlace.concatenatedCityInfo, description: '', latitude: searchedPlace.latitude, longitude: searchedPlace.longitude, imagePath: '/assets/popUpPic.jpg' }}
-            icon="pin"
-            color="blue"
-            position={[searchedPlace.latitude, searchedPlace.longitude]}
-          />
-        ) : null}
       </MapContainer>
     </div>
   )
