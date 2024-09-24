@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import './globals.css'
+import Footer from './components/common/Footer'
 
 export const metadata: Metadata = {
   title: 'Pin-it',
@@ -26,7 +27,10 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover" />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Footer />
+      </body>
     </html>
   )
 }

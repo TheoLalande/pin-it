@@ -27,8 +27,8 @@ export default function PinPoint(props: pinPointProps) {
   const map = useMap() // Accès à la carte
 
   useEffect(() => {
-    map.panTo([searchedPlace.latitude, searchedPlace.longitude], { animate: true, duration: 1.0 })
-  }, [searchedPlace])
+    if (searchedPlace.latitude !== 0 && searchedPlace.longitude !== 0) map.panTo([searchedPlace.latitude, searchedPlace.longitude], { animate: true, duration: 1.0 })
+  }, [searchedPlace, map])
 
   function handleMarkerClick(e: LeafletMouseEvent) {
     setTimeout(() => {

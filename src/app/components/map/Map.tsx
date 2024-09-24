@@ -30,8 +30,8 @@ const Map = (props: propsType) => {
         ))}
         {searchedPlace ? (
           <PinPoint
-            key={searchedPlace.concatenatedCityInfo}
-            popupData={{ title: searchedPlace.concatenatedCityInfo, description: '', latitude: searchedPlace.latitude, longitude: searchedPlace.longitude, imagePath: '/assets/popUpPic.jpg' }}
+            key={searchedPlace.title}
+            popupData={{ title: searchedPlace.title, description: '', latitude: searchedPlace.latitude, longitude: searchedPlace.longitude, imagePath: '/assets/popUpPic.jpg' }}
             icon="pin"
             color="blue"
             position={[searchedPlace.latitude, searchedPlace.longitude]}
