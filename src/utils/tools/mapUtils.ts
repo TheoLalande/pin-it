@@ -1,3 +1,5 @@
+import { PinPointType } from "../types/PinPointTypes";
+
 export type formatedNominatimResult = {
   concatenatedCityInfo: string;
   state: string;
@@ -16,7 +18,6 @@ export async function getPlacesFromUserInput(address: string) {
   for (const place of uniquePlaces) placesWithStringToDisplay.push({ ...place, stringToDisplay: addPlacesToDisplayToObj(place) })
   return placesWithStringToDisplay
 }
-
 async function getNominatimInfo(address: string) {
   const result = await fetch(`https://nominatim.openstreetmap.org/search?q=${address}&format=json&addressdetails=1`, {
     headers: {
@@ -51,9 +52,7 @@ function addPlacesToDisplayToObj(place: any): string {
     address.road !== place.name ? address.road : null,  // Route, mais uniquement si elle est différente du nom
     address.square !== place.name ? address.square : null,  // Place, mais uniquement si elle est différente du nom
     address.park !== place.name ? address.park : null,  // Parc, mais uniquement si il est différent du nom
-    address.neighbourhood,  // Quartier
     address.city || address.town || address.village,  // Ville
-    address.postcode,
     address.county,
     address.state,
     address.country,
@@ -71,7 +70,41 @@ export function formatGPSCoordinates(valueToFormat: string): { latitude: string,
 
   return { latitude, longitude }
 }
+export function getPinPointObjFromGps(gpsValues: { latitude: string; longitude: string; }) {
+  const pinPointFromGps: PinPointType = {
+    title: `${gpsValues.latitude}, ${gpsValues.longitude}`,
+    description: '',
+    latitude: parseFloat(gpsValues.latitude),
+    longitude: parseFloat(gpsValues.longitude),
+    modified_at: new Date().toISOString(),
+    created_at: new Date().toISOString(),
+    tags: [],
+    pictures: [],
+    type: 0,
+    icon: 'pin',
+    color: 'blue',
+    created_by: 'user',
+  }
+  return pinPointFromGps
+}
+export function getPinPointObjFromNominatimData(nominatimData: any) {
+  const pinPointFromNominatimAddress: PinPointType = {
+    title: nominatimData.display_name,
+    description: '',
+    latitude: parseFloat(nominatimData.lat),
+    longitude: parseFloat(nominatimData.lon),
+    modified_at: new Date().toISOString(),
+    created_at: new Date().toISOString(),
+    tags: [],
+    pictures: [],
+    type: 0,
+    icon: 'pin',
+    color: '#ffffff00',
+    created_by: 'user',
+  }
+  return pinPointFromNominatimAddress
 
+}
 const exportedFunctions = { isGPSCoordinates, formatGPSCoordinates, getPlacesFromUserInput }
 export default exportedFunctions
 
