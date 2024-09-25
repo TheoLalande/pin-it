@@ -1,5 +1,5 @@
-export type SearchedPlaceType = {
-  city: string;
+export type formatedNominatimResult = {
+  concatenatedCityInfo: string;
   state: string;
   postCode: number
   latitude: number;
@@ -7,61 +7,71 @@ export type SearchedPlaceType = {
   fullCoordinates: string;
 }
 
-export function isGPSCoordinates(valueToCheck: string): boolean {
-  const regex = /^\s*(-?([1-8]?\d(\.\d+)?|90(\.0+)?)),\s*(-?((1[0-7]\d|\d{1,2})(\.\d+)?|180(\.0+)?))\s*$/;
-  if (regex.test(valueToCheck)) return true
-  return false
+
+export async function getPlacesFromUserInput(address: string) {
+  const result = await getNominatimInfo(address)
+  const sortedPlaces = sortNominatimPlaces(result)
+  const uniquePlaces = deleteNiminatimDuplicates(sortedPlaces)
+  const placesWithStringToDisplay = []
+  for (const place of uniquePlaces) placesWithStringToDisplay.push({ ...place, stringToDisplay: addPlacesToDisplayToObj(place) })
+  return placesWithStringToDisplay
 }
 
-export function formatGPSCoordinates(valueToFormat: string): SearchedPlaceType[] {
-  const valueWithoutSpace = valueToFormat.replace(/\s+/g, '');
-  const [latitude, longitude] = valueWithoutSpace.split(',');
-  const searchedPlace: SearchedPlaceType[] = [{
-    city: '',
-    state: '',
-    postCode: 0,
-    latitude: parseFloat(latitude),
-    longitude: parseFloat(longitude),
-    fullCoordinates: valueWithoutSpace,
-  }]
-  return searchedPlace
-}
-
-export async function getGpsCoordinatesFromAddr(address: string) {
+async function getNominatimInfo(address: string) {
   const result = await fetch(`https://nominatim.openstreetmap.org/search?q=${address}&format=json&addressdetails=1`, {
     headers: {
       'User-Agent': 'Pin-it/1.0 (theo.lalande@gmail.com)',
     },
   })
-  const formatedData = formatResults(await result.json())
-  return formatedData
+  const parsedResult = await result.json()
+  return parsedResult
 }
-
-function formatResults(results: any) {
-  const formatedResult: Array<SearchedPlaceType> = []
-  for (const result of results) {
-    const city = result.address.city
-      ? result.address.city
-      : result.address.village
-        ? result.address.village
-        : result.address.municipality
-    const concatenatedString = `${city}, ${result.address.state}, ${result.address.country}`
-    const isDuplicate = formatedResult.some((item) => item.city === concatenatedString)
-    if (!isDuplicate) {
-      const resultObj: SearchedPlaceType = {
-        city: concatenatedString,
-        state: result.address.state,
-        postCode: result.address.postcode,
-        latitude: parseFloat(result.lat),
-        longitude: parseFloat(result.lon),
-        fullCoordinates: `${result.lat}, ${result.lon}`,
+function sortNominatimPlaces(places: any) {
+  return places.filter((place: { address: { city: any; }; }) => place.address.city) // Filtrer les lieux avec une ville
+    .sort((a: { place_rank: number; importance: number; }, b: { place_rank: number; importance: number; }) => {
+      if (a.place_rank !== b.place_rank) {
+        return a.place_rank - b.place_rank;
       }
-      formatedResult.push(resultObj)
-    }
-  }
-  return formatedResult
+      return b.importance - a.importance;
+    });
+}
+function deleteNiminatimDuplicates(sortedPlaces: any) {
+  const result = sortedPlaces.filter(
+    (place: { name: any; address: { city: any; }; }, index: any, self: any[]) =>
+      index ===
+      self.findIndex((p) => p.name === place.name && p.address.city === place.address.city)
+  );
+
+  return result
+}
+function addPlacesToDisplayToObj(place: any): string {
+  const address = place.address;
+  const components = [
+    place.name,  // Nom du lieu
+    address.road !== place.name ? address.road : null,  // Route, mais uniquement si elle est différente du nom
+    address.square !== place.name ? address.square : null,  // Place, mais uniquement si elle est différente du nom
+    address.park !== place.name ? address.park : null,  // Parc, mais uniquement si il est différent du nom
+    address.neighbourhood,  // Quartier
+    address.city || address.town || address.village,  // Ville
+    address.postcode,
+    address.county,
+    address.state,
+    address.country,
+  ];
+  return components.filter(Boolean).join(", ");
+};
+export function isGPSCoordinates(valueToCheck: string): boolean {
+  const regex = /^\s*(-?([1-8]?\d(\.\d+)?|90(\.0+)?)),\s*(-?((1[0-7]\d|\d{1,2})(\.\d+)?|180(\.0+)?))\s*$/;
+  if (regex.test(valueToCheck)) return true
+  return false
+}
+export function formatGPSCoordinates(valueToFormat: string): { latitude: string, longitude: string } {
+  const valueWithoutSpace = valueToFormat.replace(/\s+/g, '');
+  const [latitude, longitude] = valueWithoutSpace.split(',');
+
+  return { latitude, longitude }
 }
 
-const exportedFunctions = { isGPSCoordinates, formatGPSCoordinates, getGpsCoordinatesFromAddr }
+const exportedFunctions = { isGPSCoordinates, formatGPSCoordinates, getPlacesFromUserInput }
 export default exportedFunctions
 
