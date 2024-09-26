@@ -1,7 +1,7 @@
 type propsType = {
   icon: JSX.Element
   title: string
-  description: string | null
+  description: string
 }
 
 const SettingElement = (props: propsType) => {

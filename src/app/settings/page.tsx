@@ -1,9 +1,16 @@
 import ProfilePicture from '../components/settings/ProfilePicture'
 import SettingElement from '../components/settings/SettingElement'
 import { FaRegHeart, FaRegUser } from 'react-icons/fa6'
+import { RiSettings2Line } from 'react-icons/ri'
+
+type dataType = {
+  icon: JSX.Element
+  title: string
+  description: string
+}
 
 const page = () => {
-  const data = [
+  const data: dataType[] = [
     {
       icon: <FaRegUser size={25} strokeWidth={1} />,
       title: 'Profil',
@@ -13,6 +20,11 @@ const page = () => {
       icon: <FaRegHeart size={25} strokeWidth={1} />,
       title: 'Favoris',
       description: 'Cartes, points, personnes',
+    },
+    {
+      icon: <RiSettings2Line size={25} />,
+      title: 'Préférences',
+      description: "Paramètres de l'application",
     },
   ]
 
