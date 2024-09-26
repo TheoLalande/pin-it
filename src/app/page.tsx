@@ -1,7 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import SearchBar from './components/common/SearchBar'
+import SearchBar from './components/common/searchbar/SearchBar'
 const Map = dynamic(() => import('./components/map/Map'), {
   ssr: false,
 })

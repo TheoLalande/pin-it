@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import { getPlacesFromUserInput, isGPSCoordinates, formatGPSCoordinates, formatedNominatimResult, getPinPointObj } from '@/utils/tools/mapUtils'
 import { useCommonStore } from '@/app/store/commonStore'
 import { PinPointType } from '@/utils/types/PinPointTypes'
+import { MdMyLocation } from 'react-icons/md'
+import { getUserLocation } from '@/utils/tools/mapUtils'
+
 const SearchBar = () => {
   const [userInput, setUserInput] = useState<any>('')
   const [nominatimSearchResults, setNominatimSearchResults] = useState<formatedNominatimResult[] | null>([])
@@ -22,14 +25,13 @@ const SearchBar = () => {
 
   async function handleSearchSubmit(e: React.FormEvent): Promise<void> {
     e.preventDefault()
-    let result: any = null
     try {
       if (isGPSCoordinates(userInput)) {
-        result = formatGPSCoordinates(userInput)
+        const result: { latitude: string; longitude: string } = formatGPSCoordinates(userInput)
         const pinPointFromGPS: PinPointType = getPinPointObj(result, true)
         muteIsSearchedPlace(pinPointFromGPS)
       } else {
-        result = await getPlacesFromUserInput(userInput)
+        const result = await getPlacesFromUserInput(userInput)
         setNominatimSearchResults(result)
       }
     } catch (error) {
@@ -40,6 +42,11 @@ const SearchBar = () => {
   function handleDeleteUserInput(): void {
     setUserInput('')
   }
+  async function handleLocation(): Promise<void> {
+    const gpsOfUserLocation: { latitude: number; longitude: number } = await getUserLocation()
+    const pinPointFromUserLocation: PinPointType = getPinPointObj(gpsOfUserLocation, true)
+    muteIsSearchedPlace(pinPointFromUserLocation)
+  }
   return (
     <>
       <form
@@ -49,19 +56,20 @@ const SearchBar = () => {
         onSubmit={handleSearchSubmit}
       >
         <div className="relative">
-          <input onChange={e => setUserInput(e.target.value)} type="text" className="w-full h-8 rounded-full shadow-lg focus:outline-none pl-3 bg-white text-foreground" placeholder="Search..." />
+          <input onChange={e => setUserInput(e.target.value)} type="text" className="w-full h-8 rounded-full shadow-lg focus:outline-none pl-10 bg-white text-foreground" placeholder="Search..." />
           {userInput !== '' ? (
             <button
+              type="button" // Assure que ce bouton n'agit pas comme un bouton de soumission de formulaire
               className="absolute top-1 right-3 text-gray-500"
-              onClick={e => {
-                e.preventDefault()
-                handleDeleteUserInput()
-              }}
+              onClick={handleDeleteUserInput} // Pas besoin de preventDefault ici
             >
               x
             </button>
           ) : null}
-        </div>{' '}
+          <button type="button" className="absolute top-2 left-3 text-gray-500" onClick={handleLocation}>
+            <MdMyLocation />
+          </button>
+        </div>
       </form>
       {nominatimSearchResults ? (
         <ul ref={resultsRef} className="absolute top-12 left-1/2 transform -translate-x-1/2 z-20 w-3/4 bg-white border rounded-md shadow-lg max-h-60 overflow-auto">

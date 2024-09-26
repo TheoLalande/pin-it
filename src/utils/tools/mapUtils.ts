@@ -1,6 +1,4 @@
 import { PinPointType } from "../types/PinPointTypes";
-// import { useCommonStore } from '@/app/store/commonStore'
-// import { useMapEvents } from "react-leaflet";
 
 export type formatedNominatimResult = {
   concatenatedCityInfo: string;
@@ -11,24 +9,6 @@ export type formatedNominatimResult = {
   fullCoordinates: string;
 }
 
-// type nominatimType = {
-//   place_id: number,
-//   licence: string,
-//   osm_type: string,
-//   osm_id: number,
-//   lat: string,
-//   lon: string,
-//   class: string,
-//   type: string,
-//   place_rank: number,
-//   importance: number,
-//   addresstype: string,
-//   name: string,
-//   display_name: string,
-//   address: any
-//   boundingbox: string[]
-//   stringToDisplay: string
-// }
 
 export async function getPlacesFromUserInput(address: string) {
   const result = await getNominatimInfo(address)
@@ -127,7 +107,28 @@ export function getPinPointObj(values: { latitude: string; longitude: string; } 
     return pinPointFromNominatimAddress
   }
 }
+export async function getUserLocation(): Promise<{ latitude: number; longitude: number }> {
+  const test: Promise<{ latitude: number; longitude: number }> = new Promise((resolve, reject) => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          console.log("Position received: ", latitude, longitude);
+          resolve({ latitude, longitude });
+        },
+        (error) => {
+          console.error("Error retrieving position: ", error);
+          reject(error);
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      );
+    } else {
+      reject(new Error("Geolocation is not supported by this browser."));
+    }
+  });
 
+  return test
+}
 
 
 
