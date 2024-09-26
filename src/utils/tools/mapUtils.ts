@@ -1,4 +1,6 @@
 import { PinPointType } from "../types/PinPointTypes";
+// import { useCommonStore } from '@/app/store/commonStore'
+// import { useMapEvents } from "react-leaflet";
 
 export type formatedNominatimResult = {
   concatenatedCityInfo: string;
@@ -9,29 +11,24 @@ export type formatedNominatimResult = {
   fullCoordinates: string;
 }
 
-type nominatimType = {
-  place_id: number,
-  licence: string,
-  osm_type: string,
-  osm_id: number,
-  lat: string,
-  lon: string,
-  class: string,
-  type: string,
-  place_rank: number,
-  importance: number,
-  addresstype: string,
-  name: string,
-  display_name: string,
-  address: any
-  boundingbox: string[]
-  stringToDisplay: string
-}
-
-
-
-
-
+// type nominatimType = {
+//   place_id: number,
+//   licence: string,
+//   osm_type: string,
+//   osm_id: number,
+//   lat: string,
+//   lon: string,
+//   class: string,
+//   type: string,
+//   place_rank: number,
+//   importance: number,
+//   addresstype: string,
+//   name: string,
+//   display_name: string,
+//   address: any
+//   boundingbox: string[]
+//   stringToDisplay: string
+// }
 
 export async function getPlacesFromUserInput(address: string) {
   const result = await getNominatimInfo(address)
@@ -130,6 +127,9 @@ export function getPinPointObj(values: { latitude: string; longitude: string; } 
     return pinPointFromNominatimAddress
   }
 }
+
+
+
 
 const exportedFunctions = { isGPSCoordinates, formatGPSCoordinates, getPlacesFromUserInput }
 export default exportedFunctions

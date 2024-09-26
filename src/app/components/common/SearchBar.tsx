@@ -6,19 +6,18 @@ import { PinPointType } from '@/utils/types/PinPointTypes'
 const SearchBar = () => {
   const [userInput, setUserInput] = useState<any>('')
   const [nominatimSearchResults, setNominatimSearchResults] = useState<formatedNominatimResult[] | null>([])
-  const { setSearchedPlace } = useCommonStore()
+  const { muteIsSearchedPlace, isMenuShown } = useCommonStore()
   const resultsRef = useRef<HTMLUListElement | null>(null)
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    function handleClickOutsideOfResultList(event: MouseEvent) {
       if (resultsRef.current && !resultsRef.current.contains(event.target as Node)) {
         setNominatimSearchResults(null)
       }
     }
-
-    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('mousedown', handleClickOutsideOfResultList)
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('mousedown', handleClickOutsideOfResultList)
     }
   }, [resultsRef])
 
@@ -29,7 +28,7 @@ const SearchBar = () => {
       if (isGPSCoordinates(userInput)) {
         result = formatGPSCoordinates(userInput)
         const pinPointFromGPS: PinPointType = getPinPointObj(result, true)
-        setSearchedPlace(pinPointFromGPS)
+        muteIsSearchedPlace(pinPointFromGPS)
       } else {
         result = await getPlacesFromUserInput(userInput)
         setNominatimSearchResults(result)
@@ -41,7 +40,14 @@ const SearchBar = () => {
   }
   return (
     <>
-      <form className="bg-transparent absolute top-4 left-1/2 transform -translate-x-1/2 z-10 w-3/4" onSubmit={handleSearchSubmit}>
+      {/* <form className={`w-[80%] mx-auto mt-3 transition-all duration-300 ${isMenuShown ? 'fade-enter-active' : 'fade-exit-active'}`} onSubmit={handleSearchSubmit}> */}
+
+      <form
+        className={`bg-transparent absolute top-4 left-1/2 transform -translate-x-1/2 z-10 w-3/4 transition-all duration-300 ${
+          isMenuShown ? 'translate-y-0 opacity-100' : '-translate-y-20 opacity-0'
+        }`}
+        onSubmit={handleSearchSubmit}
+      >
         <input onChange={e => setUserInput(e.target.value)} type="text" className="w-full h-8 rounded-full shadow-lg focus:outline-none pl-3 bg-white text-foreground" placeholder="Search..." />
       </form>
       {nominatimSearchResults ? (
@@ -51,7 +57,7 @@ const SearchBar = () => {
               className="p-2 hover:bg-gray-200 cursor-pointer"
               key={index}
               onClick={() => {
-                setSearchedPlace(getPinPointObj(result, false))
+                muteIsSearchedPlace(getPinPointObj(result, false))
                 setNominatimSearchResults(null)
               }}
             >

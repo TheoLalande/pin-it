@@ -9,8 +9,8 @@ const Map = dynamic(() => import('./components/map/Map'), {
 export default function Home() {
   return (
     <div className="h-screen w-screen relative">
-      <Map zoom={6} position={[43.0, 3.0]} />
       <SearchBar />
+      <Map zoom={6} position={[43.0, 3.0]} />
     </div>
   )
 }

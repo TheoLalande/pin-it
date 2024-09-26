@@ -4,7 +4,11 @@ import { PinPointType } from '@/utils/types/PinPointTypes';
 
 interface CommonState {
   searchedPlace: PinPointType
-  setSearchedPlace: (place: any) => void; // Ajoute cette méthode dans l'interface
+  isMenuShown: boolean
+
+  muteIsSearchedPlace: (place: any) => void; // Ajoute cette méthode dans l'interface
+  muteIsMenuShown: (value: any) => void; // Ajoute cette méthode dans l'interface
+
 }
 
 export const useCommonStore = create<CommonState>((set) => ({
@@ -22,6 +26,9 @@ export const useCommonStore = create<CommonState>((set) => ({
     color: 'blue',
     created_by: '',
   },
-  setSearchedPlace: (place: any) => set(() => ({ searchedPlace: place })),
+  isMenuShown: true,
 
+
+  muteIsSearchedPlace: (place: any) => set(() => ({ searchedPlace: place })),
+  muteIsMenuShown: (value: boolean) => set(() => ({ isMenuShown: value })),
 }));
