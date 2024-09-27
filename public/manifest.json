@@ -10,9 +10,59 @@
   "splash_pages": null,
   "icons": [
     {
-      "src": "/assets/icon.png",
+      "src": "/assets/pwaIcons/256.png",
+      "type": "image/png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "/assets/pwaIcons/64-maskable.png",
+      "type": "image/png",
+      "sizes": "64x64",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/pwaIcons/128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "/assets/pwaIcons/128-maskable.png",
+      "type": "image/png",
+      "sizes": "128x128",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/pwaIcons/256.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "/assets/pwaIcons/256-maskable.png",
+      "type": "image/png",
+      "sizes": "256x256",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/pwaIcons/512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/assets/pwaIcons/512-maskable.png",
+      "type": "image/png",
       "sizes": "512x512",
-      "type": "image/png"
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/pwaIcons/1024.png",
+      "type": "image/png",
+      "sizes": "1024x1024"
+    },
+    {
+      "src": "/assets/pwaIcons/1024-maskable.png",
+      "type": "image/png",
+      "sizes": "1024x1024",
+      "purpose": "maskable"
     }
   ]
 }
