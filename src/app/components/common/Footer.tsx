@@ -4,9 +4,14 @@ import Link from 'next/link'
 import { FaPlus, FaMap, FaInfoCircle } from 'react-icons/fa'
 import { RiSettings3Fill } from 'react-icons/ri'
 import { useCommonStore } from '@/app/store/commonStore'
+import { MdAddLocationAlt } from 'react-icons/md'
 
 const Footer = () => {
-  const { isMenuShown, muteIsMenuShown } = useCommonStore()
+  const { isMenuShown, isMarkerToolUsed, muteIsMenuShown, muteIsMarkerToolUsed } = useCommonStore()
+
+  function handleButtonClick() {
+    muteIsMarkerToolUsed(!isMarkerToolUsed)
+  }
 
   return (
     <footer
@@ -15,17 +20,29 @@ const Footer = () => {
       }`}
     >
       <nav className="flex justify-around items-center px-5 py-2">
-        <Link href="/" className="flex flex-col items-center text-gray-700 hover:text-blue-500">
-          <FaMap size={18} />
+        <Link href="/" className="flex flex-col items-center text-gray-700 hover:text-green-500">
+          <FaMap size={18} onClick={() => muteIsMarkerToolUsed(false)} />
         </Link>
-        <Link href="/search" className="flex flex-col items-center text-gray-700 hover:text-blue-500">
-          <FaPlus size={18} onClick={() => muteIsMenuShown(true)} />
+        <Link href="/search" className="flex flex-col items-center text-gray-700 hover:text-green-500">
+          <FaPlus
+            size={18}
+            onClick={() => {
+              muteIsMenuShown(true)
+              muteIsMarkerToolUsed(false)
+            }}
+          />
         </Link>
-        <Link href="/settings" className="flex flex-col items-center text-gray-700 hover:text-blue-500">
-          <RiSettings3Fill size={18} onClick={() => muteIsMenuShown(true)} />
-        </Link>
-        <Link href="/about" className='flex flex-col items-center text-gray-700 hover:text-blue-500"'>
-          <FaInfoCircle size={18} onClick={() => muteIsMenuShown(true)} />
+        <button className={`flex flex-col items-center ${isMarkerToolUsed ? 'text-green-500' : 'text-gray-700'}`} onClick={() => handleButtonClick()}>
+          <MdAddLocationAlt size={18} />
+        </button>
+        <Link href="/settings" className="flex flex-col items-center text-gray-700 hover:text-green-500">
+          <RiSettings3Fill
+            size={18}
+            onClick={() => {
+              muteIsMenuShown(true)
+              muteIsMarkerToolUsed(false)
+            }}
+          />
         </Link>
       </nav>
     </footer>

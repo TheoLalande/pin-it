@@ -23,8 +23,10 @@ const Map = (props: propsType) => {
     const { isMenuShown, muteIsMenuShown } = useCommonStore.getState()
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useMapEvents({
-      click() {
+      click(e) {
         muteIsMenuShown(!isMenuShown)
+        console.log(e.latlng.lat)
+        console.log(e.latlng.lng)
       },
       zoomstart: () => {
         if (!isMenuShown) muteIsMenuShown(false)
