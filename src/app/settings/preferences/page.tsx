@@ -1,7 +1,7 @@
 import React from 'react'
 
-const Preferences = () => {
-  return <div>Preferences</div>
+const preferencesSettings = () => {
+  return <div className="w-screen h-screen bg-red-100">preferencesSettings</div>
 }
 
-export default Preferences
+export default preferencesSettings
