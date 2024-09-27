@@ -3,7 +3,7 @@
   "short_name": "pwa-nextjs",
   "theme_color": "#35155D",
   "background_color": "#ffffff",
-  "display": "standalone",
+  "display": "fullscreen",
   "orientation": "portrait",
   "scope": "/",
   "start_url": "/",

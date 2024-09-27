@@ -21,7 +21,6 @@ const Map = (props: propsType) => {
   }
   function detectMapMotion() {
     const { isMenuShown, muteIsMenuShown } = useCommonStore.getState()
-    console.log('🚀🚀 ~ isMenuShown:', isMenuShown)
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useMapEvents({
       click() {

@@ -6,7 +6,7 @@ import { MdMyLocation } from 'react-icons/md'
 import { getUserLocation } from '@/utils/tools/mapUtils'
 
 const SearchBar = () => {
-  const [userInput, setUserInput] = useState<any>('')
+  const [userInput, setUserInput] = useState<string>('')
   const [nominatimSearchResults, setNominatimSearchResults] = useState<formatedNominatimResult[] | null>([])
   const { muteIsSearchedPlace, isMenuShown } = useCommonStore()
   const resultsRef = useRef<HTMLUListElement | null>(null)
@@ -40,6 +40,8 @@ const SearchBar = () => {
     }
   }
   function handleDeleteUserInput(): void {
+    const elt = document.getElementById('searchBarInput') as HTMLInputElement
+    elt.value = ''
     setUserInput('')
   }
   async function handleLocation(): Promise<void> {
@@ -56,7 +58,13 @@ const SearchBar = () => {
         onSubmit={handleSearchSubmit}
       >
         <div className="relative">
-          <input onChange={e => setUserInput(e.target.value)} type="text" className="w-full h-8 rounded-full shadow-lg focus:outline-none pl-10 bg-white text-foreground" placeholder="Search..." />
+          <input
+            id="searchBarInput"
+            onChange={e => setUserInput(e.target.value)}
+            type="text"
+            className="w-full h-8 rounded-full shadow-lg focus:outline-none pl-10 bg-white text-foreground"
+            placeholder="Search..."
+          />
           {userInput !== '' ? (
             <button
               type="button" // Assure que ce bouton n'agit pas comme un bouton de soumission de formulaire

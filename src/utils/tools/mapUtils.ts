@@ -71,7 +71,6 @@ export function formatGPSCoordinates(valueToFormat: string): { latitude: string,
   return { latitude, longitude }
 }
 export function getPinPointObj(values: { latitude: string; longitude: string; } | any, isGps: boolean) {
-  console.log('🚀🚀 ~ values:', values)
   if (isGps) {
     const pinPointFromGps: PinPointType = {
       title: `${values.latitude}, ${values.longitude}`,
@@ -108,7 +107,7 @@ export function getPinPointObj(values: { latitude: string; longitude: string; } 
   }
 }
 export async function getUserLocation(): Promise<{ latitude: number; longitude: number }> {
-  const test: Promise<{ latitude: number; longitude: number }> = new Promise((resolve, reject) => {
+  const userCoordinates: Promise<{ latitude: number; longitude: number }> = new Promise((resolve, reject) => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -127,7 +126,7 @@ export async function getUserLocation(): Promise<{ latitude: number; longitude: 
     }
   });
 
-  return test
+  return userCoordinates
 }
 
 
