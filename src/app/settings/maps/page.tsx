@@ -41,7 +41,7 @@ const MapSettings = () => {
   const router = useRouter()
   return (
     <div className="p-8 mb-10">
-      <button className="mb-10" onClick={() => router.push('/settings')}>
+      <button className="mb-5" onClick={() => router.push('/settings')}>
         <GrFormPrevious size={25} />
       </button>
       {data.map(d => (
