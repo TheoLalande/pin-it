@@ -1,7 +1,7 @@
 {
   "name": "Pin-It",
   "short_name": "P-It",
-  "theme_color": "#333232",
+  "theme_color": "#FFFFFF",
   "background_color": "#fafafa",
   "display": "fullscreen",
   "orientation": "portrait",
