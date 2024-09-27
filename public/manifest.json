@@ -1,11 +1,18 @@
 {
-  "name": "PWA Next.js",
-  "short_name": "pwa-nextjs",
-  "theme_color": "#35155D",
-  "background_color": "#ffffff",
+  "name": "Pin-It",
+  "short_name": "P-It",
+  "theme_color": "#333232",
+  "background_color": "#fafafa",
   "display": "fullscreen",
   "orientation": "portrait",
   "scope": "/",
   "start_url": "/",
-  "splash_pages": null
+  "splash_pages": null,
+  "icons": [
+    {
+      "src": "/assets/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }

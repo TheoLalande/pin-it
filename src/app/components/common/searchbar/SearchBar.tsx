@@ -4,6 +4,7 @@ import { useCommonStore } from '@/app/store/commonStore'
 import { PinPointType } from '@/utils/types/PinPointTypes'
 import { MdMyLocation } from 'react-icons/md'
 import { getUserLocation } from '@/utils/tools/mapUtils'
+import { RxCrossCircled } from 'react-icons/rx'
 
 const SearchBar = () => {
   const [userInput, setUserInput] = useState<string>('')
@@ -52,7 +53,7 @@ const SearchBar = () => {
   return (
     <>
       <form
-        className={`bg-transparent absolute top-4 left-1/2 transform -translate-x-1/2 z-10 w-3/4 transition-all duration-300 ${
+        className={`bg-transparent absolute top-4 left-1/2 transform -translate-x-1/2 z-10 w-4/5 transition-all duration-300 ${
           isMenuShown ? 'translate-y-0 opacity-100' : '-translate-y-20 opacity-0'
         }`}
         onSubmit={handleSearchSubmit}
@@ -62,16 +63,16 @@ const SearchBar = () => {
             id="searchBarInput"
             onChange={e => setUserInput(e.target.value)}
             type="text"
-            className="w-full h-8 rounded-full shadow-lg focus:outline-none pl-10 bg-white text-foreground"
+            className="w-full  h-8 rounded-lg shadow-lg focus:outline-none pl-10 bg-white text-foreground"
             placeholder="Search..."
           />
           {userInput !== '' ? (
             <button
               type="button" // Assure que ce bouton n'agit pas comme un bouton de soumission de formulaire
-              className="absolute top-1 right-3 text-gray-500"
+              className="absolute top-2 right-3 text-gray-500"
               onClick={handleDeleteUserInput} // Pas besoin de preventDefault ici
             >
-              x
+              <RxCrossCircled />
             </button>
           ) : null}
           <button type="button" className="absolute top-2 left-3 text-gray-500" onClick={handleLocation}>
