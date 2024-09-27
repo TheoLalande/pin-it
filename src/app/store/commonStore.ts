@@ -1,19 +1,20 @@
-import { create } from 'zustand';
-import { PinPointType } from '@/utils/types/PinPointTypes';
-
+import { create } from 'zustand'
+import { PinPointType } from '@/utils/types/PinPointTypes'
 
 interface CommonState {
   searchedPlace: PinPointType
   isMenuShown: boolean
-  mapStyle: string
+  mapStyle: {
+    mapURL: string
+    mapId: number
+  }
 
-  muteIsSearchedPlace: (place: any) => void; // Ajoute cette méthode dans l'interface
-  muteIsMenuShown: (value: any) => void; // Ajoute cette méthode dans l'interface
-  muteMapStyle: (value: string) => void;
-
+  muteIsSearchedPlace: (place: any) => void // Ajoute cette méthode dans l'interface
+  muteIsMenuShown: (value: any) => void // Ajoute cette méthode dans l'interface
+  muteMapStyle: (value: { mapURL: string; mapId: number }) => void
 }
 
-export const useCommonStore = create<CommonState>((set) => ({
+export const useCommonStore = create<CommonState>(set => ({
   searchedPlace: {
     title: '',
     description: '',
@@ -29,10 +30,12 @@ export const useCommonStore = create<CommonState>((set) => ({
     created_by: '',
   },
   isMenuShown: true,
-  mapStyle: 'https://tile.jawg.io/jawg-streets/{z}/{x}/{y}{r}.png?access-token=nrGnG2vPRIN3tdQBFvFLMnriBCRxtMcffJCdYpZaV4F9Igqwgp1B8LJFhLHXjlem',
-
+  mapStyle: {
+    mapURL: 'https://tile.jawg.io/jawg-streets/{z}/{x}/{y}{r}.png?access-token=nrGnG2vPRIN3tdQBFvFLMnriBCRxtMcffJCdYpZaV4F9Igqwgp1B8LJFhLHXjlem',
+    mapId: 1,
+  },
 
   muteIsSearchedPlace: (place: any) => set(() => ({ searchedPlace: place })),
   muteIsMenuShown: (value: boolean) => set(() => ({ isMenuShown: value })),
-  muteMapStyle: (value: string) => set(() => ({ mapStyle: value }))
-}));
+  muteMapStyle: (value: { mapURL: string; mapId: number }) => set(() => ({ mapStyle: value })),
+}))

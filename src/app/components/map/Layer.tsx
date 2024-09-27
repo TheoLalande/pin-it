@@ -1,10 +1,11 @@
-import React from "react";
-import { TileLayer } from "react-leaflet";
+import React from 'react'
+import { TileLayer } from 'react-leaflet'
+import { useCommonStore } from '@/app/store/commonStore'
 
 const Layer = () => {
-  return (
-    <TileLayer url="https://tile.jawg.io/jawg-streets/{z}/{x}/{y}{r}.png?access-token=nrGnG2vPRIN3tdQBFvFLMnriBCRxtMcffJCdYpZaV4F9Igqwgp1B8LJFhLHXjlem" />
-  );
-};
+  const { mapStyle } = useCommonStore()
 
-export default Layer;
+  return <TileLayer url={mapStyle.mapURL} />
+}
+
+export default Layer
