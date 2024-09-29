@@ -9,11 +9,13 @@ interface CommonState {
     mapURL: string
     mapId: number
   }
+  isLanding: boolean
 
-  muteIsSearchedPlace: (place: any) => void // Ajoute cette méthode dans l'interface
+  muteSearchedPlace: (place: any) => void // Ajoute cette méthode dans l'interface
   muteIsMenuShown: (value: any) => void // Ajoute cette méthode dans l'interface
   muteMapStyle: (value: { mapURL: string; mapId: number }) => void
   muteIsMarkerToolUsed: (value: boolean) => void
+  muteIsLanding: (value: boolean) => void
 }
 
 export const useCommonStore = create<CommonState>(set => ({
@@ -37,9 +39,11 @@ export const useCommonStore = create<CommonState>(set => ({
     mapId: 1,
   },
   isMarkerToolUsed: false,
+  isLanding: true,
 
-  muteIsSearchedPlace: (place: any) => set(() => ({ searchedPlace: place })),
+  muteSearchedPlace: (place: any) => set(() => ({ searchedPlace: place })),
   muteIsMenuShown: (value: boolean) => set(() => ({ isMenuShown: value })),
   muteMapStyle: (value: { mapURL: string; mapId: number }) => set(() => ({ mapStyle: value })),
   muteIsMarkerToolUsed: (value: boolean) => set(() => ({ isMarkerToolUsed: value })),
+  muteIsLanding: (value: boolean) => set(() => ({ isLanding: value })),
 }))

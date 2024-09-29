@@ -35,7 +35,8 @@ const Footer = () => {
         <button className={`flex flex-col items-center ${isMarkerToolUsed ? 'text-green-500' : 'text-gray-700'}`} onClick={() => handleButtonClick()}>
           <MdAddLocationAlt size={18} />
         </button>
-        <Link href="/settings" className="flex flex-col items-center text-gray-700 hover:text-green-500">
+{        /*Configuration */}        
+<Link href="/settings" className="flex flex-col items-center text-gray-700 hover:text-green-500">
           <RiSettings3Fill
             size={18}
             onClick={() => {

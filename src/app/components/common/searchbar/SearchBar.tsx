@@ -9,7 +9,7 @@ import { RxCrossCircled } from 'react-icons/rx'
 const SearchBar = () => {
   const [userInput, setUserInput] = useState<string>('')
   const [nominatimSearchResults, setNominatimSearchResults] = useState<formatedNominatimResult[] | null>([])
-  const { muteIsSearchedPlace, isMenuShown } = useCommonStore()
+  const { muteSearchedPlace, isMenuShown } = useCommonStore()
   const resultsRef = useRef<HTMLUListElement | null>(null)
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const SearchBar = () => {
       if (isGPSCoordinates(userInput)) {
         const result: { latitude: string; longitude: string } = formatGPSCoordinates(userInput)
         const pinPointFromGPS: PinPointType = getPinPointObj(result, true)
-        muteIsSearchedPlace(pinPointFromGPS)
+        muteSearchedPlace(pinPointFromGPS)
       } else {
         const result = await getPlacesFromUserInput(userInput)
         setNominatimSearchResults(result)
@@ -48,7 +48,7 @@ const SearchBar = () => {
   async function handleLocation(): Promise<void> {
     const gpsOfUserLocation: { latitude: number; longitude: number } = await getUserLocation()
     const pinPointFromUserLocation: PinPointType = getPinPointObj(gpsOfUserLocation, true)
-    muteIsSearchedPlace(pinPointFromUserLocation)
+    muteSearchedPlace(pinPointFromUserLocation)
   }
   return (
     <>
@@ -87,7 +87,7 @@ const SearchBar = () => {
               className="p-2 hover:bg-gray-200 cursor-pointer"
               key={index}
               onClick={() => {
-                muteIsSearchedPlace(getPinPointObj(result, false))
+                muteSearchedPlace(getPinPointObj(result, false))
                 setNominatimSearchResults(null)
               }}
             >
